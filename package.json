@@ -1,5 +1,5 @@
 {
-  "name": "legion-app",
+  "name": "legion-api",
   "version": "0.0.1",
   "description": "",
   "main": "server.js",
