@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API=" https://young-shore-15639.herokuapp.com/"
+API="http://localhost:4741"
 URL_PATH="/sign-up"
 
 curl "${API}${URL_PATH}" \
@@ -9,7 +9,6 @@ curl "${API}${URL_PATH}" \
   --header "Content-Type: application/json" \
   --data '{
     "credentials": {
-      "username": "'"${USERNAME}"'",
       "email": "'"${EMAIL}"'",
       "password": "'"${PASSWORD}"'",
       "password_confirmation": "'"${PASSWORD}"'"
