@@ -3,7 +3,9 @@ const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
 const passport = require('passport')
 
-// pull in Mongoose model for venues
+const router = express.Router()
+
+// pull in Mongoose model for legion
 const Legion= require('../models/legion')
 
 // this is a collection of methods that help us detect situations when we need
@@ -17,7 +19,7 @@ const handle404 = customErrors.handle404
 const requireOwnership = customErrors.requireOwnership
 
 // this is middleware that will remove blank fields from `req.body`, e.g.
-// { example: { title: '', text: 'foo' } } -> { example: { text: 'foo' } }
+{ legion: { title: '', text: 'foo' } } -> { legion: { text: 'foo' } }
 const removeBlanks = require('../../lib/remove_blank_fields')
 // passing this as a second argument to `router.<verb>` will make it
 // so that a token MUST be passed for that route to be available
@@ -28,43 +30,43 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 // INDEX
-// GET /venues
-router.get('/venues', requireToken, (req, res, next) => {
+// GET /legions
+router.get('/legions', requireToken, (req, res, next) => {
   Legion.find()
-    .then(venues => {
-      // `venues` will be an array of Mongoose documents
-      // we want to convert each one to a POJO, so we use `.map` to
+    .then(legions => {
+       // `legions` will be an array of Mongoose documents
+       // we want to convert each one to a POJO, so we use `.map` to
       // apply `.toObject` to each one
-      return venues.map(venue => venue.toObject())
+      return legions.map(legion => legion.toObject())
     })
-    // respond with status 200 and JSON of the venues
-    .then(venues => res.status(200).json({ venues: venues }))
+    // respond with status 200 and JSON of the legion
+    .then(legion => res.status(200).json({ legions: legion }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
 
 // SHOW
-// GET /venues/:id
-router.get('/venues/:id', requireToken, (req, res, next) => {
+// GET /legions/:id
+router.get('/legions/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   Legion.find({ _id: req.params.id, owner: req.user._id })
     .then(handle404)
-    // if `findById` is succesful, respond with 200 and "venue" JSON
-    .then(venue => res.status(200).json({ venue: venue }))
+    // if `findById` is succesful, respond with 200 and "legion" JSON
+    .then(legion => res.status(200).json({ legion: legion }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
 
 // CREATE
-// POST /venues
-router.post('/venues', requireToken, (req, res, next) => {
-  // set owner of new venue to be current user
-  req.body.venue.owner = req.user.id
+// POST /legions
+router.post('/legions', requireToken, (req, res, next) => {
+  // set owner of new legion to be current user
+  req.body.legion.owner = req.user._id
 
-  Legion.create(req.body.venue)
-    // respond to succesful `create` with status 201 and JSON of new "venue"
-    .then(venue => {
-      res.status(201).json({ venue: venue.toObject() })
+  Legion.create(req.body.legion)
+    // respond to succesful `create` with status 201 and JSON of new "legion"
+    .then(legion => {
+      res.status(201).json({ legion: legion.toObject() })
     })
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
@@ -73,21 +75,21 @@ router.post('/venues', requireToken, (req, res, next) => {
 })
 
 // UPDATE
-// PATCH /venues/:id
-router.patch('/venues/:id', requireToken, removeBlanks, (req, res, next) => {
+// PATCH /legions/:id
+router.patch('/legions/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.venue.owner
+  delete req.body.legion.owner
 
   Legion.findById(req.params.id)
     .then(handle404)
-    .then(venue => {
+    .then(legion => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
-      requireOwnership(req, venue)
+      requireOwnership(req, legion)
 
       // pass the result of Mongoose's `.update` to the next `.then`
-      return venue.updateOne(req.body.venue)
+      return legion.updateOne(req.body.legion)
     })
     // if that succeeded, return 204 and no JSON
     .then(() => res.sendStatus(204))
@@ -96,15 +98,15 @@ router.patch('/venues/:id', requireToken, removeBlanks, (req, res, next) => {
 })
 
 // DESTROY
-// DELETE /venues/:id
-router.delete('/venues/:id', requireToken, (req, res, next) => {
+// DELETE /legions/:id
+router.delete('/legions/:id', requireToken, (req, res, next) => {
   Legion.findById(req.params.id)
     .then(handle404)
-    .then(venue => {
-      // throw an error if current user doesn't own `venue`
-      requireOwnership(req, venue)
-      // delete the venue ONLY IF the above didn't throw
-      venue.deleteOne()
+    .then(legion => {
+      // throw an error if current user doesn't own `legion`
+      requireOwnership(req, legion)
+      // delete the legion ONLY IF the above didn't throw
+      legion.deleteOne()
     })
     // send back 204 and no content if the deletion succeeded
     .then(() => res.sendStatus(204))
