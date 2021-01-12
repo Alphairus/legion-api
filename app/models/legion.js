@@ -5,7 +5,7 @@ const legionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    number: {
+    loyalty: {
         type: String,
         required: true
     },

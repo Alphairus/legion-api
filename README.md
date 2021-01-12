@@ -3,7 +3,7 @@ Legion is an app for creating your own legion in the Warhammer 40k universe.
 It's built in two parts:
 * A front-end app, built with JavaScript, jQuery, HTML, and CSS
 * [GitHub repo](https://github.com/Alphairus/legion-client)
-* [Live site](), deployed on GitHub Pages
+* [Live site](), https://alphairus.github.io/legion-client/
 * A back-end API, built with Ruby on Rails
 * [GitHub repo](https://github.com/Alphairus/legion-api)
 * [Live site](https://git.heroku.com/young-shore-15639.git), deployed on Heroku
