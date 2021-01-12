@@ -19,7 +19,7 @@ const handle404 = customErrors.handle404
 const requireOwnership = customErrors.requireOwnership
 
 // this is middleware that will remove blank fields from `req.body`, e.g.
-{ legion: { title: '', text: 'foo' } } -> { legion: { text: 'foo' } }
+// { legion: { title: '', text: 'foo' } } -> { legion: { text: 'foo' } }
 const removeBlanks = require('../../lib/remove_blank_fields')
 // passing this as a second argument to `router.<verb>` will make it
 // so that a token MUST be passed for that route to be available
@@ -27,12 +27,12 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 const requireToken = passport.authenticate('bearer', { session: false })
 
 // instantiate a router (mini app that only handles routes)
-const router = express.Router()
+// const router = express.Router()
 
 // INDEX
 // GET /legions
 router.get('/legions', requireToken, (req, res, next) => {
-  Legion.find()
+  Legion.find({ owner: req.user._id })
     .then(legions => {
        // `legions` will be an array of Mongoose documents
        // we want to convert each one to a POJO, so we use `.map` to
@@ -49,7 +49,7 @@ router.get('/legions', requireToken, (req, res, next) => {
 // GET /legions/:id
 router.get('/legions/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  Legion.find({ _id: req.params.id, owner: req.user._id })
+  Legion.findOne({ _id: req.params.id, owner: req.user._id })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "legion" JSON
     .then(legion => res.status(200).json({ legion: legion }))
@@ -81,7 +81,7 @@ router.patch('/legions/:id', requireToken, removeBlanks, (req, res, next) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.legion.owner
 
-  Legion.findById(req.params.id)
+  Legion.findOne({ _id: req.params.id, owner: req.user._id})
     .then(handle404)
     .then(legion => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
@@ -100,7 +100,7 @@ router.patch('/legions/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /legions/:id
 router.delete('/legions/:id', requireToken, (req, res, next) => {
-  Legion.findById(req.params.id)
+  Legion.findOne({ _id: req.params.id, owner: req.user._id})
     .then(handle404)
     .then(legion => {
       // throw an error if current user doesn't own `legion`
