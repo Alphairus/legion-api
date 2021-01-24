@@ -21,7 +21,8 @@ const legionSchema = new mongoose.Schema({
       // References user the typew ObjectID
         type: mongoose.Schema.Types.ObjectId,
         // the name of the model to which they refer
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true
