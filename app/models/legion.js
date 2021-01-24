@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const legionSchema = new mongoose.Schema({
-    email: {
+    title: {
         type: String,
         required: true
     },
@@ -12,6 +12,10 @@ const legionSchema = new mongoose.Schema({
     homeworld: {
         type: String,
         required: true
+    },
+    primarch: {
+      type: String,
+      required: true
     },
     owner: {
       // References user the typew ObjectID
