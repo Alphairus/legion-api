@@ -4,10 +4,10 @@ curl "http://localhost:4741/legions/${ID}" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
-    "game": {
+    "legion": {
       "title": "'"${TITLE}"'",
-      "releaseDate": "'"${DATE}"'",
-      "genre": "'"${GENRE}"'",
-      "platform": "'"${PLATFORM}"'"
+      "loyalty": "'"${LOYALTY}"'",
+      "homeworld": "'"${HOMEWORLD}"'",
+      "primarch": "'"${PRIMARCH}"'"
     }
   }'
