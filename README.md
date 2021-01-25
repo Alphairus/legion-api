@@ -6,16 +6,33 @@ It's built in two parts:
 * [Live site](), https://alphairus.github.io/legion-client/
 * A back-end API, built with Ruby on Rails
 * [GitHub repo](https://github.com/Alphairus/legion-api)
-* [Live site](https://git.heroku.com/young-shore-15639.git), deployed on Heroku
+* [Live site](https://young-shore-15639.herokuapp.com/), deployed on Heroku
 
-  ## Remaining Documentation Requirements
-* TODO Create 2 Github repos (one for your front-end and one for your back-end)
-* TODO Pin both repositories on GitHub as a Popular Repository
-* TODO Each repo will need a README.md file with a link to the other repo and an explanation of the what the app does and how it works.
-* TODO Each repo must contain the link to both deployed sites
-* TODO Complete the repository Description field and Website field with a meaningful sentence description of the application and link to the live URL github image
-* TODO List technologies used
-* TODO List unsolved problems which would be fixed in future iterations.
-* TODO Document your planning and tell a story about your development process and problem-solving strategy.
-* TODO Your front-end repo's README should also have: Link to wireframes and user stories.
-* TODO Your back-end repo's README should also have: Link to Entity Relationship Diagram (ERD).
+
+### Relevant links
+- [Deployed Client](https://chrisjaechun.github.io/geo-doods-client/)
+- [Deployed API](https://young-shore-15639.herokuapp.com/)
+- [Legion Client Repository](https://github.com/Alphairus/legion-client)
+### List of technologies Used
+- Heroku
+- MongoDB
+-- Mongoose
+### User Stories
+- As a user, I want to be able to create an account.
+- As a user, I want to be able to change my password.
+- As a user, I want to be able to sign out and have my data disappear from the page.
+- As a user, I want to be able to create my own legion.
+
+### ERD
+![Venue Database ERD](https://imgur.com/MB9l2aa)
+### Planning
+1/6-1/8
+Tested out my user_routes with curl scripts to confirm their behavior. After being able to confirm, I created a legion model and worked towards my legion_routes. I tested out my venue routes to confirm their behavior, as well.
+
+1/11 Deployed to Heroku
+
+1/23-24 - updated scripts and assets to match front-end
+
+### Unfinished
+
+Will like to add a other aspects and options to the database.
