@@ -10,7 +10,7 @@ It's built in two parts:
 
 
 ### Relevant links
-- [Deployed Client](https://chrisjaechun.github.io/geo-doods-client/)
+- [Deployed Client]
 - [Deployed API](https://young-shore-15639.herokuapp.com/)
 - [Legion Client Repository](https://github.com/Alphairus/legion-client)
 ### List of technologies Used
